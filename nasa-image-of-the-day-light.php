@@ -42,13 +42,13 @@ function niod_GetImage($args)  {
     update_option('img_description', $rss->items[0]['description']);
   }
   if($_POST['niod_image_width'] != $options['niod_image_width'])  {
-    resize_image($img_src, $options['niod_image_width']);
+    resize_niod_image($img_src, $options['niod_image_width']);
   }
   $tmb = '/tmb_'.basename($img_src);
   $output = '<div id=thumbnail><a title="'.get_option('img_title').'" rel=lightbox[roadtrip] href="'.$wpurl.'/'.PLUGINDIR.'/'.niod_DIR.'/imgcache/'.basename($img_src).'"><img src="'.$wpurl.'/'.PLUGINDIR.'/'.niod_DIR.'/imgcache'.$tmb.'" border="0" style="border:1px solid #000" alt="'.get_option('img_title').'" /></a></div>';
   $img_title_html = '<a href="'.get_option('img_link').'" target="_blank">'.get_option('img_title').'</a>';
   if($options['niod_image_desc'])  {
-    $output .= '<p>'.cut_text(get_option('img_description'), $options['niod_desc_chars']).'<br><a href="'.get_option('img_link').'" target="_blank">read more &raquo;</a></p>';
+    $output .= '<p>'.cut_niod_text(get_option('img_description'), $options['niod_desc_chars']).'<br><a href="'.get_option('img_link').'" target="_blank">read more &raquo;</a></p>';
   }
   $lightbox = '<script type="text/javascript" src="'.$wpurl.'/'.PLUGINDIR.'/'.niod_DIR.'/js/prototype.js"></script>
   <script type="text/javascript" src="'.$wpurl.'/'.PLUGINDIR.'/'.niod_DIR.'/js/scriptaculous.js?load=effects,builder"></script>
@@ -64,13 +64,13 @@ function niod_GetImage($args)  {
   echo $after_widget;
 }
 
-function resize_image($img_src,$w)  {
+function resize_niod_image($img_src,$w)  {
   require_once('class.thumb.php');
   $img = new Thumb;
   $img->resize_image($img_src,dirname($img_src).'/tmb_'.basename($img_src),$w);
 }
 
-function cut_text($str,$length)  {
+function cut_niod_text($str,$length)  {
   while(substr($str,$length,1) !== " ")  {
     substr($str,$length,1);
     $length = $length - 1;
